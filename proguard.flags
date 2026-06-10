@@ -1,0 +1,13 @@
+# TODO(b/373579455): Evaluate if <init> needs to be kept.
+-keep @com.android.internal.annotations.VisibleForTesting class * {
+  void <init>();
+}
+-keep public class * extends android.widget.ListView {
+  public *;
+}
+-keep class com.android.server.telecom.TelecomSystem {
+  *;
+}
+-keep class android.telecom.Log {
+  *;
+}

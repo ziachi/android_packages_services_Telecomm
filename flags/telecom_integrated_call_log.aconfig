@@ -1,0 +1,18 @@
+package: "com.android.server.telecom.flags"
+container: "system"
+
+# OWNER=huiwang TARGET=25Q4
+flag {
+  name: "integrated_call_logs"
+  namespace: "telecom"
+  description: "Support integrated call logs"
+  bug: "420711866"
+}
+
+# OWNER=pmadapurmath TARGET=26Q2
+flag {
+  name: "filter_voip_call_logs"
+  namespace: "telecom"
+  description: "Add key to filter out voip call logs for dialer apps that don't support integrated call logs"
+  bug: "434747530"
+}

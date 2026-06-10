@@ -1,0 +1,240 @@
+syntax = "proto2";
+
+package com.android.server.telecom;
+
+option java_package = "com.android.server.telecom";
+option java_outer_classname = "PulledAtomsClass";
+
+message PulledAtoms {
+  repeated CallStats call_stats = 1;
+  optional int64 call_stats_pull_timestamp_millis = 2;
+  repeated CallAudioRouteStats call_audio_route_stats = 3;
+  optional int64 call_audio_route_stats_pull_timestamp_millis = 4;
+  repeated TelecomApiStats telecom_api_stats = 5;
+  optional int64 telecom_api_stats_pull_timestamp_millis = 6;
+  repeated TelecomErrorStats telecom_error_stats = 7;
+  optional int64 telecom_error_stats_pull_timestamp_millis = 8;
+  repeated TelecomEventStats telecom_event_stats = 9;
+  optional int64 telecom_event_stats_pull_timestamp_millis = 10;
+  repeated CallSequencingStats call_sequencing_stats = 11;
+  optional int64 call_sequencing_stats_pull_timestamp_millis = 12;
+  repeated CallSequencingOperationStats call_sequencing_operation_stats = 13;
+  optional int64 call_sequencing_operations_stats_pull_timestamp_millis = 14;
+}
+
+/**
+ * Pulled atom to capture stats of the calls
+ * From frameworks/proto_logging/stats/atoms/telecomm/telecom_extension_atom.proto
+ */
+message CallStats {
+    // The value should be converted to android.telecom.CallDirectionEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 call_direction = 1;
+
+    // True if call is external. External calls are calls on connected Wear
+    // devices but show up in Telecom so the user can pull them onto the device.
+    optional bool external_call = 2;
+
+    // True if call is emergency call.
+    optional bool emergency_call = 3;
+
+    // True if there are multiple audio routes available
+    optional bool multiple_audio_available = 4;
+
+    // The value should be converted to android.telecom.AccountTypeEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 account_type = 5;
+
+    // UID of the package to init the call. This should always be -1/unknown for
+    // the private space calls
+    optional int32 uid = 6;
+
+    // Total number of the calls
+    optional int32 count = 7;
+
+    // Average elapsed time between CALL_STATE_ACTIVE to CALL_STATE_DISCONNECTED.
+    optional int32 average_duration_ms = 8;
+
+    // The disconnect cause of the call. Eg. ERROR, LOCAL, REMOTE, etc.
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 disconnect_cause = 9;
+
+    // The type of simultaneous call type. Eg. SINGLE, DUAL_SAME_ACCOUNT,
+    // DUAL_DIFF_ACCOUNT, etc.
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 simultaneous_type = 10;
+
+    // True if it is a video call
+    optional bool video_call = 11;
+}
+
+/**
+ * Pulled atom to capture stats of the call audio route
+ * From frameworks/proto_logging/stats/atoms/telecomm/telecom_extension_atom.proto
+ */
+message CallAudioRouteStats {
+    // The value should be converted to android.telecom.CallAudioEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 call_audio_route_source = 1;
+
+    // The value should be converted to android.telecom.CallAudioEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 call_audio_route_dest = 2;
+
+    // True if the route is successful.
+    optional bool success = 3;
+
+    // True if the route is revert
+    optional bool revert = 4;
+
+    // Total number of the audio route
+    optional int32 count = 5;
+
+    // Average time from the audio route start to complete
+    optional int32 average_latency_ms = 6;
+}
+
+/**
+ * Pulled atom to capture stats of Telecom API usage
+ * From frameworks/proto_logging/stats/atoms/telecomm/telecom_extension_atom.proto
+ */
+message TelecomApiStats {
+    // The value should be converted to android.telecom.ApiNameEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 api_name = 1;
+
+    // UID of the caller. This is always -1/unknown for the private space.
+    optional int32 uid = 2;
+
+    // The value should be converted to android.telecom.ApiResultEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 api_result = 3;
+
+    // The number of times this event occurs
+    optional int32 count = 4;
+}
+
+/**
+ * Pulled atom to capture stats of Telecom module errors
+ * From frameworks/proto_logging/stats/atoms/telecomm/telecom_extension_atom.proto
+ */
+message TelecomErrorStats {
+    // The value should be converted to android.telecom.SubmoduleEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 submodule = 1;
+
+    // The value should be converted to android.telecom.ErrorEnum
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 error = 2;
+
+    // The number of times this error occurs
+    optional int32 count = 3;
+}
+
+/**
+ * Pulled atom to capture stats of Telecom critical events
+ */
+message TelecomEventStats {
+    // The event name
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 event = 1;
+
+    // UID of the caller. This is always -1/unknown for the private space.
+    optional int32 uid = 2;
+
+    // The cause related to the event
+    // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+    optional int32 event_cause = 3;
+
+    // The number of times this event occurs
+    optional int32 count = 4;
+}
+
+/**
+ * Pulled atom to capture general stats of Telecom call sequencing information
+ */
+message CallSequencingStats {
+  // The value should be converted to android.telecom.CallTypeEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 primary_call_type = 1;
+
+  // The value should be converted to android.telecom.CallTypeEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 secondary_call_type = 2;
+
+  // True if the primary call is an emergency call
+  optional bool is_primary_call_emergency = 3;
+
+  // True if the secondary call is an emergency call
+  optional bool is_secondary_call_emergency = 4;
+
+  // True if this event is tracking a secondary call
+  optional bool has_secondary = 5;
+
+  // True if primary and secondary call phone accounts are the same
+  optional bool is_same_phone_account = 6;
+
+  // Average elapsed time between CALL_STATE_ACTIVE to CALL_STATE_DISCONNECTED.
+  optional int32 average_duration_ms = 7;
+
+  // The number of times this stat occurs
+  optional int32 count = 8;
+}
+
+/**
+ * Pulled atom to capture stats of Telecom call sequencing operations
+ */
+message CallSequencingOperationStats {
+  // The value should be converted to android.telecom.CallOperationTypeEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 call_operation = 1;
+
+  // The value should be converted to android.telecom.CallStateEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 focus_call_state = 2;
+
+  // The value should be converted to android.telecom.CallStateEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 source_call_state = 3;
+
+  // The value should be converted to android.telecom.CallTypeEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 focus_call_type = 4;
+
+  // The value should be converted to android.telecom.CallTypeEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 source_call_type = 5;
+
+  // Carrier name of focus call. This should always be -1/unknown for
+  // the private space calls
+  optional int32 focus_call_carrier_id = 6;
+
+  // Carrier name of the source call. This should always be -1/unknown for
+  // the private space calls or if source call isn’t defined
+  optional int32 source_call_carrier_id = 7;
+
+  // UID of the package to init the call. This should always be -1/unknown for
+  // the private space calls
+  optional int32 focus_call_id = 8;
+
+  // UID of the package to init the call. This should always be -1/unknown for
+  // the private space calls or if source call isn’t defined
+  optional int32 source_call_uid = 9;
+
+  // True if the focus call is an emergency call
+  optional bool is_focus_call_emergency = 10;
+
+  // True if the source call is an emergency call
+  optional bool is_source_call_emergency = 11;
+
+  // The value should be converted to android.telecom.CallOperationResultEnum
+  // From frameworks/proto_logging/stats/enums/telecomm/enums.proto
+  optional int32 operation_result = 12;
+
+  // True if source call (provided that this is present) and focus call
+  // are from same phone accounts
+  optional bool is_same_phone_account = 13;
+
+  // Duration (ms) taken for operation to complete
+  optional int32 operation_duration_ms = 14;
+}
